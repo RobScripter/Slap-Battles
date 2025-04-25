@@ -1,0 +1,59 @@
+local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/RobScripter/Orion/refs/heads/main/source"))()
+
+local Window = OrionLib:MakeWindow({
+    IntroText = "Slap Battles 👏 | KeySystem",
+    IntroIcon = "rbxassetid://15315284749",
+    Name = "Slap Battles 👏 | KeySystem | " .. identifyexecutor(),
+    IntroToggleIcon = "rbxassetid://7733965118",
+    HidePremium = false,
+    SaveConfig = false,
+    IntroEnabled = true,
+    ConfigFolder = "SlapBattlesHubKeySystem"
+})
+
+local Tab = Window:MakeTab({
+	Name = "KeySystem",
+	Icon = "rbxassetid://7733965118",
+	PremiumOnly = false
+	})
+
+OrionLib:MakeNotification({
+	Name = "RobScripter",
+	Content = "Get Key In Our Discord Server!",
+	Image = "rbxassetid://7734059095",
+	Time = 3
+})
+
+Tab:AddTextbox({
+	Name = "Enter Key",
+	Default = "",
+	TextDisappear = false,
+	Callback = function(Value)
+		KeyInput = Value
+	end	  
+})
+
+Tab:AddButton({
+    Name = "Check Key",
+    Callback = function()   
+if KeyInput == "@!Azerty" then
+OrionLib:MakeNotification({Name = "RobScripter", Content = "Key Valid", Image = "rbxassetid://7733715400", Time = 3})
+wait(1)
+OrionLib:MakeNotification({Name = "RobScripter", Content = "Closing Gui", Image = "rbxassetid://7733715400", Time = 3})
+wait(1)
+OrionLib:Destroy()
+wait(1)
+OrionLib:MakeNotification({Name = "RobScripter", Content = "Wait 5 Seconds For Script", Image = "rbxassetid://7733715400", Time = 3})
+wait(5)
+loadstring(game:HttpGet("https://raw.githubusercontent.com/RobScripter/Slap-Battles/refs/heads/main/SlapBattlesHub.lua"))()
+else
+OrionLib:MakeNotification({Name = "RobScripter", Content = "Key Invalid", Image = "rbxassetid://7743878496", Time = 3})
+end
+end
+})
+
+Tab:AddParagraph("How To Get Key?","Join Our Discord Server")
+Tab:AddParagraph("Discord Server : https://discord.gg/bXRKjhvH")
+Tab:AddParagraph("Why My Key Didnt Worked?","Wrong/Expired Key")
+Tab:AddParagraph("Will Key Change Someday?","Key Changes Every 1 Month")
+
