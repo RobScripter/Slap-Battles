@@ -45,7 +45,7 @@ OrionLib:Destroy()
 wait(1)
 OrionLib:MakeNotification({Name = "RobScripter", Content = "Wait 5 Seconds For Script", Image = "rbxassetid://7733715400", Time = 3})
 wait(5)
-loadstring(game:HttpGet("https://raw.githubusercontent.com/RobScripter/Slap-Battles/refs/heads/main/SlapBattlesHub.lua"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/RobScripter/Slap-Battles/refs/heads/main/SlapBattlesHub"))()
 else
 OrionLib:MakeNotification({Name = "RobScripter", Content = "Key Invalid", Image = "rbxassetid://7743878496", Time = 3})
 end
