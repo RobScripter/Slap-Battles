@@ -22,7 +22,7 @@ function loadMainScript()
         Time = 5
     })
     
-    wait(3)
+    wait(5)
     loadstring(game:HttpGet("https://raw.githubusercontent.com/RobScripter/Slap-Battles/refs/heads/main/SlapAuraHub.lua"))()
     OrionLib:Destroy()
 end
