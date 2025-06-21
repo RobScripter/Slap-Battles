@@ -63,7 +63,7 @@ local function serverHop()
 
 					-- Queue le script pour qu'il se relance automatiquement sur le nouveau serveur
 					TeleportService:QueueOnTeleport([[
-						loadstring(game:HttpGet("https://raw.githubusercontent.com/RobScripter/Slap-Battles/refs/heads/main/AutoGetBob"))()
+						loadstring(game:HttpGet("https://raw.githubusercontent.com/RobScripter/Slap-Battles/refs/heads/main/AutoGetBob.lua"))()
 					]])
 
 					TeleportService:TeleportToPlaceInstance(PLACE_ID, server.id, player)
