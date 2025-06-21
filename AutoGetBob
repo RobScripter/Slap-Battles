@@ -1,0 +1,111 @@
+-- 🛡 Bypass anti-cheat
+loadstring(game:HttpGet('https://raw.githubusercontent.com/RobScripter/Slap-Battles/refs/heads/main/BypassAntiCheat.lua'))()
+
+-- 📦 Services
+local Players = game:GetService("Players")
+local TeleportService = game:GetService("TeleportService")
+local HttpService = game:GetService("HttpService")
+local BadgeService = game:GetService("BadgeService")
+local player = Players.LocalPlayer
+
+-- 📍 Constants
+local PLACE_ID = game.PlaceId
+local BADGE_ID = 2125950512 -- Your rare badge ID
+local TELEPORT_POS = CFrame.new(-1010.16229, 329.900879, 3.98652339)
+
+-- 📌 Teleport to specific zone
+local function teleportToZone()
+	local character = player.Character or player.CharacterAdded:Wait()
+	local hrp = character:WaitForChild("HumanoidRootPart")
+	hrp.CFrame = TELEPORT_POS
+end
+
+-- ✅ Check if player has the badge
+local function hasBadge()
+	local success, result = pcall(function()
+		return BadgeService:UserHasBadgeAsync(player.UserId, BADGE_ID)
+	end)
+	return success and result
+end
+
+-- ⚡ Spam the RemoteEvent without freezing
+local function spamDuplicateUntilBadge()
+	while not hasBadge() do
+		for i = 1, 10 do
+			pcall(function()
+				game.ReplicatedStorage.Duplicate:FireServer()
+			end)
+		end
+		task.wait()
+	end
+end
+
+-- 🔁 Server Hop
+ 
+local function serverHop()
+    local cursor = nil
+    local tried = {}
+
+    while true do
+        local url = "https://games.roblox.com/v1/games/"..PLACE_ID.."/servers/Public?sortOrder=Asc&limit=100"
+        if cursor then
+            url = url.."&cursor="..HttpService:UrlEncode(cursor)
+        end
+
+        local success, response = pcall(function()
+            return game:HttpGet(url)
+        end)
+
+        if success then
+            local data = HttpService:JSONDecode(response)
+            for _, server in ipairs(data.data) do
+                if server.playing < server.maxPlayers and server.id ~= game.JobId and not tried[server.id] then
+                    tried[server.id] = true
+
+                    -- Queue the same script again to auto-run after teleport
+                    local scriptToRun = [[
+                        loadstring(game:HttpGet("https://raw.githubusercontent.com/RobScripter/Slap-Battles/refs/heads/main/AutoGetBob", true))()
+                    ]]
+                    TeleportService:QueueOnTeleport(scriptToRun)
+
+                    TeleportService:TeleportToPlaceInstance(PLACE_ID, server.id, player)
+                    return
+                end
+            end
+
+            -- Move to next page of servers
+            cursor = data.nextPageCursor
+            if not cursor then
+                break
+            end
+        else
+            warn("⚠️ HTTP request failed while trying to get servers.")
+            break
+        end
+    end
+
+    warn("❌ No available servers found to hop.")
+end
+
+
+-- 🧠 MAIN SCRIPT
+task.spawn(function()
+	pcall(function()
+		teleportToZone()
+		task.wait(1)
+
+		if hasBadge() then
+			print("🎉 You already have the badge.")
+			return
+		end
+
+		spamDuplicateUntilBadge()
+
+		if hasBadge() then
+			print("✅ Badge obtained, script finished.")
+		else
+			print("🔁 Badge not obtained, hopping server...")
+			serverHop()
+		end
+	end)
+end)
